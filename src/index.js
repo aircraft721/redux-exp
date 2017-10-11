@@ -124,6 +124,20 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
     }
 }
 
+//get visible expenses
+const getVisibleExpenses = (expenses, {text,sortBy,startDate,endDate}) => {
+    return expenses.filter((expense) => {
+        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
+        const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= startDate;
+        const textMatch = expense.description.toLowerCase().includes(text.toLowerCase());
+
+        //figure out if expenses.description as the text variable string inside of it
+        //includes
+
+        return startDateMatch && endDateMatch && textMatch;
+    });
+}
+
 //store creation
 
 const store = createStore(
@@ -134,26 +148,28 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-    console.log(store.getState());
+    const state = store.getState();
+    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
+    console.log(visibleExpenses);
 })
 
-// const expenseOne = store.dispatch(addExpense({description: 'Rent', amount: 100}));
-// const expenseTwo = store.dispatch(addExpense({description: 'Gao', amount: 400}));
+const expenseOne = store.dispatch(addExpense({description: 'Rent', amount: 100, createdAt: 245}));
+const expenseTwo = store.dispatch(addExpense({description: 'Brunei', amount: 400, createdAt: 244}));
 
 // console.log(expenseOne);
 // store.dispatch(removeExpense({id: expenseOne.expense.id}));
 
 // store.dispatch(editExpense(expenseTwo.expense.id, {amount: 500}));
 
-// store.dispatch(setTextFilter('Bento'));
+store.dispatch(setTextFilter('b'));
 // store.dispatch(setTextFilter(''));
 
 // store.dispatch(sortByAmount());
 // store.dispatch(sortByDate());
 
-store.dispatch(setStartDate(125));
-store.dispatch(setStartDate(0));
-store.dispatch(setEndDate(1500));
+// store.dispatch(setStartDate(125));
+// store.dispatch(setStartDate(0));
+// store.dispatch(setEndDate(1500));
 
 
 

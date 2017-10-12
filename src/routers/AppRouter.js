@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch, Link, NavLink} from 'react-router-dom';
+import React from 'react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ExpenseDashboardPage from '../components/ExpenseDashboardPage';
 import EditExpensePage from '../components/EditExpensePage';
 import AddExpensePage from '../components/AddExpensePage';
